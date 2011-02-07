@@ -1,0 +1,13 @@
+{
+  "name": "dot js",
+  "version": "1.0",
+  "description": "~/.js",
+  "content_scripts": [{
+    "run_at":     "document_start",
+    "matches":    ["http://*/*", "https://*/*"],
+    "js":         ["jquery.js", "ext.js"]
+  }],
+  "permissions": [
+    "tabs"
+  ]
+}
