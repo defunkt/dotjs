@@ -5,6 +5,7 @@ If you navigate to `http://www.google.com/`, dotjs will execute the JavaSript
 in `~/.js/google.com.js`.
 
 This makes it super easy to rewrite your favorite pages using JavaScript.
+
 Bonus: the dotjs scripts you write have jQuery available, regardless of
 whether the site you're targeting uses jQuery.
 
@@ -14,7 +15,7 @@ in `~/.js`.
 
 ## Example
 
-    cat ~/.js/github.com.js
+    $ cat ~/.js/github.com.js
     // swap github logo with trollface
     $('#header .logo img')
       .css('width', '100px')
@@ -25,17 +26,13 @@ in `~/.js`.
 
 ## Install it
 
-    gem install dotjs
-    dotjs --install
+    git clone git@github.com:defunkt/dotjs.git
+    cd dotjs
+    ./bin/dotjs --install
 
-## How it works
+## How It Works
 
-dotjs has two parts:
+The dotjs extension expects `http://localhost:3131/google.com.js` to return
+the content of `~/.js/google.com.js`.
 
-1. Google Chrome Extension
-2. ~/.js httpd server
-
-Chrome extensions can't read from the local filesystem, but they can access
-`http://localhost`. So all we need to do is start a tiny web server and have
-it run in the background, serving from `~/.js`.
 

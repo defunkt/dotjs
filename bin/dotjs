@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+def puts(*things)
+  print "\e[1m\e[33m->\e[0m "
+  super
+end
+
+def gets(*things)
+  print "\e[1m\e[34m<-\e[0m "
+  super
+end
+
+puts "Hi! I'm going to install the \e[1m\e[32mdotjs\e[0m Google Chrome extension."
+puts "Cool? (y/n)"
+
+begin
+  until %w( y yes n no ).include?(answer = gets.chomp.downcase)
+    puts "Psst... Please type Y or N."
+    puts "Install \e[1m\e[32mdotjs\e[0m Google Chrome extension? (y/n)"
+  end
+rescue Interrupt
+  exit 1
+end
+
+if answer =~ /n/
+  exit 1
+end
+
+build = File.expand_path(File.dirname(__FILE__)) + "/../builds/dotjs.crx"
+`open #{build}`
