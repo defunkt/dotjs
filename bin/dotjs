@@ -1,32 +1,61 @@
 #!/usr/bin/env ruby
 
-ARGV.clear
-
-def puts(*things)
-  print "\e[1m\e[33m->\e[0m "
-  super
-end
-
-def gets(*things)
-  print "\e[1m\e[34m<-\e[0m "
-  super
-end
-
-puts "Hi! I'm going to install the \e[1m\e[32mdotjs\e[0m Google Chrome extension."
-puts "Cool? (y/n)"
-
-begin
-  until %w( y yes n no ).include?(answer = gets.chomp.downcase)
-    puts "Psst... Please type Y or N."
-    puts "Install \e[1m\e[32mdotjs\e[0m Google Chrome extension? (y/n)"
+def install
+  def puts(*things)
+    print "\e[1m\e[33m->\e[0m "
+    super
   end
-rescue Interrupt
-  exit 1
+
+  def gets(*things)
+    print "\e[1m\e[34m<-\e[0m "
+    super
+  end
+
+  puts "Hi! I'm going to install the \e[1m\e[32mdotjs\e[0m Google Chrome extension."
+  puts "Cool? (y/n)"
+
+  begin
+    until %w( y yes n no ).include?(answer = gets.chomp.downcase)
+      puts "Psst... Please type Y or N."
+      puts "Install \e[1m\e[32mdotjs\e[0m Google Chrome extension? (y/n)"
+    end
+  rescue Interrupt
+    exit 1
+  end
+
+  if answer =~ /n/
+    exit 1
+  end
+
+  build = File.expand_path(File.dirname(__FILE__)) + "/../builds/dotjs.crx"
+  `open #{build}`
 end
 
-if answer =~ /n/
-  exit 1
+def server
+  ARGV.push('-p')
+  ARGV.push('3131')
+
+  require 'sinatra'
+
+  get '/:host' do
+    content_type 'text/plain'
+    headers 'Access-Control-Allow-Origin' => '*'
+    host = params[:host].gsub('..', '.')
+    if File.exist? file = File.expand_path("~/.js/#{host}.js")
+      File.read(file)
+     end
+  end
 end
 
-build = File.expand_path(File.dirname(__FILE__)) + "/../builds/dotjs.crx"
-`open #{build}`
+if ARGV.include?('--install')
+  install
+elsif ARGV.include?('--server')
+  server
+else
+  puts "usage: $ dotjs [command]"
+  puts
+  puts "commands:"
+  puts "  --install\tInstalls dotjs"
+  puts "  --server\tStarts the dotjs server"
+  puts "  --help\tPrints this message"
+end
