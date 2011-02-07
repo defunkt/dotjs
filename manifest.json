@@ -1,5 +1,5 @@
 {
-  "name": "dot js",
+  "name": "dotjs",
   "version": "1.0",
   "description": "~/.js",
   "content_scripts": [{
