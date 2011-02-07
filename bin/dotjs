@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+ARGV.clear
+
 def puts(*things)
   print "\e[1m\e[33m->\e[0m "
   super
