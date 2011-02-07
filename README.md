@@ -21,6 +21,7 @@ in `~/.js`.
       .css('margin-top', '-15px')
       .attr('src', 'https://img.skitch.com/20110207-x4s8eys3uy641yk72jigt38bby.png')
 
+![](https://img.skitch.com/20110207-k3tkbubarg4yb8ym68rpm58m62.png)
 
 ## Install it
 
