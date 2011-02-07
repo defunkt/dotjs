@@ -4,7 +4,7 @@ based on their filename.
 If you navigate to `http://www.google.com/`, dotjs will execute the JavaSript
 in `~/.js/google.com.js`.
 
-This makes it super easy to rewrite your favorite pages using JavaScript.
+This makes it super easy to spruce up your favorite pages using JavaScript.
 
 Bonus: the dotjs scripts you write have jQuery available, regardless of
 whether the site you're targeting uses jQuery.
@@ -32,7 +32,11 @@ in `~/.js`.
 
 ## How It Works
 
-The dotjs extension expects `http://localhost:3131/google.com.js` to return
-the content of `~/.js/google.com.js`.
+There are two parts:
 
+1. dotjs Google Chrome extension
+2. dotjs web server
+
+The dotjs web server runs locally on port 3131 and serves js files from
+~/.js
 

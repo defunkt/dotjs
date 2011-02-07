@@ -4,7 +4,7 @@ require 'sinatra'
 get '/:host' do
   content_type 'text/plain'
   headers 'Access-Control-Allow-Origin' => '*'
-  host = params[:host].gsub('..', '.').gsub('www.','')
+  host = params[:host].gsub('..', '.')
   if File.exist? file = File.expand_path("~/.js/#{host}.js")
     File.read(file)
    end

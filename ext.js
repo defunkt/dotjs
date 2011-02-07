@@ -1,7 +1,7 @@
-var dotjsURL = 'http://chriswanstrath.com/dotjs/'
+var dotjsURL = 'https://github.com/defunkt/dotjs'
 
 $.ajax({
-  url: 'http://localhost:3131/' + window.location.host,
+  url: 'http://localhost:3131/'+window.location.host.replace('www.','')+'.js',
   success: function(d){
     $(function(){ eval(d) })
   },
