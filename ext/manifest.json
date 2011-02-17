@@ -2,10 +2,12 @@
   "name": "dotjs",
   "version": "1.0",
   "description": "~/.js",
+  "icons": { "48": "icon48.png",
+            "128": "icon128.png" },
   "content_scripts": [{
     "run_at":     "document_start",
     "matches":    ["http://*/*", "https://*/*"],
-    "js":         ["jquery.js", "ext.js"]
+    "js":         ["jquery.js", "dotjs.js"]
   }],
   "permissions": [
     "tabs"

@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+if (%w( -h --help -help help ) & ARGV).length > 0
+  puts "usage: djsd [-hv]"
+  puts "starts dotjs server in the foreground. kill with ^C"
+  exit
+end
+
+if ARGV.include?('-v')
+  puts "djsd 1.0"
+  exit
+end
+
+require 'webrick'
+
+server = WEBrick::HTTPServer.new \
+  :Port                => 3131,
+  :DocumentRoot        => File.expand_path("~/.js"),
+  :DocumentRootOptions => {
+    :HandlerCallback => proc do |req, res|
+      res['Access-Control-Allow-Origin'] = '*'
+    end
+  }
+
+%w( INT TERM ).each do |sig|
+  trap(sig) { server.shutdown }
+end
+
+server.start
