@@ -1,0 +1,318 @@
+<title>dotjs &mdash; hack the web</title>
+
+<style>
+#content{
+  width:600px;
+  font-size:25px;
+  margin:0 auto;
+  font-family:Verdana;
+}
+
+p{
+  text-align:justify;
+}
+
+pre {
+	margin: 0;
+	padding: 5px;
+  border-radius: 5px;
+	font-family: Inconsolata, monaco, monospace;
+	font-size: 18px;
+	line-height: 1.3em;
+	word-wrap: break-word;
+	white-space: pre;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -o-pre-wrap;
+	color: #F8F8F8;
+	background-color: #141414;
+}
+
+pre .linenum {
+	width: 75px;
+	padding: 0.1em 1em 0.2em 0;
+	color: #888;
+	background-color: #eee;
+}
+pre span {
+   padding-top: 0.2em;
+   padding-bottom: 0.1em;
+}
+pre ::selection {
+	background-color: rgba(221, 240, 255, 0.20);
+}
+/* Comment */
+pre .comment {
+	color: #5F5A60;
+	font-style: italic;
+}
+
+/* Constant */
+pre .constant {
+	color: #CF6A4C;
+}
+
+/* Entity */
+pre .entity {
+	color: #9B703F;
+}
+
+/* Keyword */
+pre .keyword {
+	color: #CDA869;
+}
+
+/* Storage */
+pre .storage {
+	color: #F9EE98;
+}
+
+/* String */
+pre .string {
+	color: #8F9D6A;
+}
+
+/* Support */
+pre .support {
+	color: #9B859D;
+}
+
+/* Variable */
+pre .variable {
+	color: #7587A6;
+}
+
+/* Invalid – Deprecated */
+pre .invalid_deprecated {
+	color: #D2A8A1;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+/* Invalid – Illegal */
+pre .invalid_illegal {
+	color: #F8F8F8;
+	background-color: rgba(86, 45, 86, 0.75);
+}
+
+/* ♦ Embedded Source */
+pre .text .source {
+	background-color: rgba(176, 179, 186, 0.08);
+}
+
+/* ♦ Embedded Source (Bright) */
+pre .text_html_ruby .source {
+	background-color: rgba(177, 179, 186, 0.13);
+}
+
+/* ♦ Entity inherited-class */
+pre .entity_other_inherited-class {
+	color: #9B5C2E;
+	font-style: italic;
+}
+
+/* ♦ String embedded-source */
+pre .string .source {
+	color: #DAEFA3;
+}
+
+/* ♦ String constant */
+pre .string .constant {
+	color: #DDF2A4;
+}
+
+/* ♦ String.regexp */
+pre .string_regexp {
+	color: #E9C062;
+}
+
+/* ♦ String.regexp.«special» */
+pre .string_regexp .constant_character_escape, pre .string_regexp .source_ruby_embedded, pre .string_regexp .string_regexp_arbitrary-repitition {
+	color: #CF7D34;
+}
+
+/* ♦ String variable */
+pre .string .variable {
+	color: #8A9A95;
+}
+
+/* ♦ Support.function */
+pre .support_function {
+	color: #DAD085;
+}
+
+/* ♦ Support.constant */
+pre .support_constant {
+	color: #CF6A4C;
+}
+
+/* c C/C++ Preprocessor Line */
+pre .meta_preprocessor_c {
+	color: #8996A8;
+}
+
+/* c C/C++ Preprocessor Directive */
+pre .meta_preprocessor_c .keyword {
+	color: #AFC4DB;
+}
+
+/* ✘ Doctype/XML Processing */
+pre .meta_tag_sgml_doctype, pre .meta_tag_sgml_doctype .entity, pre .meta_tag_sgml_doctype .string, pre .meta_tag_preprocessor_xml, pre .meta_tag_preprocessor_xml .entity, pre .meta_tag_preprocessor_xml .string {
+	color: #494949;
+}
+
+/* ✘ Meta.tag.«all» */
+pre .declaration_tag, pre .declaration_tag .entity, pre .meta_tag, pre .meta_tag .entity {
+	color: #AC885B;
+}
+
+/* ✘ Meta.tag.inline */
+pre .declaration_tag_inline, pre .declaration_tag_inline .entity, pre .source .entity_name_tag, pre .source .entity_other_attribute-name, pre .meta_tag_inline, pre .meta_tag_inline .entity {
+	color: #E0C589;
+}
+
+/* § css tag-name */
+pre .meta_selector_css .entity_name_tag {
+	color: #CDA869;
+}
+
+/* § css:pseudo-class */
+pre .meta_selector_css .entity_other_attribute-name_tag_pseudo-class {
+	color: #8F9D6A;
+}
+
+/* § css#id */
+pre .meta_selector_css .entity_other_attribute-name_id {
+	color: #8B98AB;
+}
+
+/* § css.class */
+pre .meta_selector_css .entity_other_attribute-name_class {
+	color: #9B703F;
+}
+
+/* § css property-name: */
+pre .support_type_property-name_css {
+	color: #C5AF75;
+}
+
+/* § css property-value; */
+pre .meta_property-group .support_constant_property-value_css, pre .meta_property-value .support_constant_property-value_css {
+	color: #F9EE98;
+}
+
+/* § css @at-rule */
+pre .meta_preprocessor_at-rule .keyword_control_at-rule {
+	color: #8693A5;
+}
+
+/* § css additional-constants */
+pre .meta_property-value .support_constant_named-color_css, pre .meta_property-value .constant {
+	color: #CA7840;
+}
+
+/* § css constructor.argument */
+pre .meta_constructor_argument_css {
+	color: #8F9D6A;
+}
+
+/* ⎇ diff.header */
+pre .meta_diff, pre .meta_diff_header, pre .meta_separator {
+	color: #F8F8F8;
+	font-style: italic;
+	background-color: #0E2231;
+}
+
+/* ⎇ diff.deleted */
+pre .markup_deleted {
+	color: #F8F8F8;
+	background-color: #420E09;
+}
+
+/* ⎇ diff.changed */
+pre .markup_changed {
+	color: #F8F8F8;
+	background-color: #4A410D;
+}
+
+/* ⎇ diff.inserted */
+pre .markup_inserted {
+	color: #F8F8F8;
+	background-color: #253B22;
+}
+
+/* Markup: List */
+pre .markup_list {
+	color: #F9EE98;
+}
+
+/* Markup: Heading */
+pre .markup_heading {
+	color: #CF6A4C;
+}
+</style>
+
+<div id="content">
+  <h1>dotjs</h1>
+
+  <p>dotjs  is a  Google Chrome  extension  that executes
+  JavaScript files in <code>~/.js</code> based on their filename.</p>
+
+  <p>If  you navigate to  <code>http://www.google.com/</code>, dotjs
+  will execute <code>~/.js/google.com.js</code>.</p>
+
+  <p>This makes it super  easy to spruce up your favorite
+  pages using JavaScript.</p>
+
+  <p>Bonus:  files in <code>~/.js</code>  have jQuery  1.4.4 loaded,
+  regardless  of  whether  the  site  you're  hacking
+  uses jQuery.</p>
+
+  <p>GreaseMonkey user scripts are great, but you need to
+  publish them  somewhere and re-publish  after making
+  modifications. With dotjs, just add or edit files in
+  <code>~/.js</code>.</p>
+
+  <h2>Example</h2>
+
+<pre class="textmate-source twilight">$ cat ~/.js/github.com.js
+<span class="source source_js"><span class="comment comment_line comment_line_double-slash comment_line_double-slash_js"><span class="punctuation punctuation_definition punctuation_definition_comment punctuation_definition_comment_js">//</span> swap github logo with trollface
+</span><span class="keyword keyword_operator keyword_operator_js">$</span><span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>#header .logo img<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span>
+  <span class="meta meta_delimiter meta_delimiter_method meta_delimiter_method_period meta_delimiter_method_period_js">.</span>css<span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>width<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_delimiter meta_delimiter_object meta_delimiter_object_comma meta_delimiter_object_comma_js">, </span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>100px<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span>
+  <span class="meta meta_delimiter meta_delimiter_method meta_delimiter_method_period meta_delimiter_method_period_js">.</span>css<span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>margin-top<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_delimiter meta_delimiter_object meta_delimiter_object_comma meta_delimiter_object_comma_js">, </span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>-15px<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span>
+  <span class="meta meta_delimiter meta_delimiter_method meta_delimiter_method_period meta_delimiter_method_period_js">.</span>attr<span class="meta meta_brace meta_brace_round meta_brace_round_js">(</span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>src<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_delimiter meta_delimiter_object meta_delimiter_object_comma meta_delimiter_object_comma_js">, </span><span class="string string_quoted string_quoted_single string_quoted_single_js"><span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_begin punctuation_definition_string_begin_js">'</span>//bit.ly/ghD24e<span class="punctuation punctuation_definition punctuation_definition_string punctuation_definition_string_end punctuation_definition_string_end_js">'</span></span><span class="meta meta_brace meta_brace_round meta_brace_round_js">)</span></span></pre>
+
+  <p><img src="https://bit.ly/gAHTbC" alt="" /></p>
+
+  <h2>Requires</h2>
+
+  <ul>
+  <li>Ruby 1.8</li>
+  <li>rake (gem install rake)</li>
+  <li>Google Chrome</li>
+  <li><code>/usr/local/bin</code> in your $PATH</li>
+  </ul>
+
+
+  <h2>Install it</h2>
+
+  <pre>git clone http://github.com/defunkt/dotjs
+cd dotjs
+rake install</pre>
+
+  <h2>Uninstall it</h2>
+
+  <pre>rake uninstall</pre>
+
+  <h2>Protip</h2>
+
+  <p>Keep <code>~/.js</code> under version control and share
+  it with the world.</p>
+
+  <h2>Credits</h2>
+
+  <ul>
+  <li>Icon: http://raphaeljs.com/icons/</li>
+  <li>jQuery: http://jquery.com/</li>
+  </ul>
+</div>
