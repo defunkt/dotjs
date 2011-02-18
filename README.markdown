@@ -47,6 +47,7 @@ the returned JavaScript.
 
 ## Requires
 
+- OS X
 - Ruby 1.8
 - rake (gem install rake)
 - Google Chrome
