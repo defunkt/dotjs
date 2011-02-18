@@ -58,6 +58,11 @@ the returned JavaScript.
     cd dotjs
     rake install
 
+## Chromium vs Google Chrome
+
+Multiple Chromes installed? Drag builds/dotjs.crx to
+whichever is your favorite.
+
 ## Uninstall it
 
     rake uninstall
