@@ -54,13 +54,7 @@ namespace :install do
   desc "Install Google Chrome extension"
   task :chrome do
     puts "Installing Google Chrome extension..."
-
-    if File.exists?('/Applications/Google Chrome.app')
-      sh "open '/Applications/Google Chrome.app'"
-    elsif File.exists?(File.expand_path('~/Applications/Google Chrome.app'))
-      sh "open '~/Applications/Google Chrome.app'"
-    end
-
+    sh "open -a 'Google Chrome'"
     sh "open builds/dotjs.crx &"
   end
 end
