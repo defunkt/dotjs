@@ -51,5 +51,5 @@ it with the world.
 
 ## Credits
 
--   Icon: http://raphaeljs.com/icons/
-- jQuery: http://jquery.com/
+-   Icon: <http://raphaeljs.com/icons/>
+- jQuery: <http://jquery.com/>
