@@ -54,8 +54,7 @@ namespace :install do
   desc "Install Google Chrome extension"
   task :chrome do
     puts "Installing Google Chrome extension..."
-    sh "open -a 'Google Chrome'"
-    sh "open builds/dotjs.crx &"
+    sh "open -a 'Google Chrome' builds/dotjs.crx &"
   end
 end
 
