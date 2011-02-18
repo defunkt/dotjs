@@ -54,7 +54,7 @@ the returned JavaScript.
 
 ## Install it
 
-    git clone http://github.com/defunkt/dotjs
+    git clone http://github.com/defunkt/dotjs.git
     cd dotjs
     rake install
 
