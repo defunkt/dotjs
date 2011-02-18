@@ -57,8 +57,8 @@ namespace :install do
 
     if File.exists?('/Applications/Google Chrome.app')
       sh "open '/Applications/Google Chrome.app'"
-    elsif File.exists?(File.expand_path('~/Applications/Google Chrome.app'))
-      sh "open '~/Applications/Google Chrome.app'"
+    elsif File.exists?(path = File.expand_path('~/Applications/Google Chrome.app'))
+      sh "open '#{path}'"
     end
 
     sh "open builds/dotjs.crx &"
