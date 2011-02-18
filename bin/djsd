@@ -13,14 +13,19 @@ end
 
 require 'webrick'
 
-server = WEBrick::HTTPServer.new \
-  :Port                => 3131,
-  :DocumentRoot        => File.expand_path("~/.js"),
-  :DocumentRootOptions => {
-    :HandlerCallback => proc do |req, res|
-      res['Access-Control-Allow-Origin'] = '*'
-    end
-  }
+dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
+  def do_GET(request, response)
+    file = File.expand_path("~/.js/#{request.path.gsub('/','')}")
+
+    response.status = File.exists?(file) ? 200 : 204
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Content-Type'] = 'text/javascript'
+    response.body = response.status == 200 ? File.read(file) : ''
+  end
+end
+
+server = WEBrick::HTTPServer.new(:Port => 3131)
+server.mount('/', dotjs)
 
 %w( INT TERM ).each do |sig|
   trap(sig) { server.shutdown }
