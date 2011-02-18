@@ -18,9 +18,6 @@ publish them  somewhere and re-publish  after making
 modifications. With dotjs, just add or edit files in
 `~/.js`.
 
-Protip: keep `~/.js` under version control and share
-it with the world.
-
 ## Example
 
     $ cat ~/.js/github.com.js
