@@ -72,3 +72,8 @@ whichever is your favorite.
 
 -   Icon: <http://raphaeljs.com/icons/>
 - jQuery: <http://jquery.com/>
+- Ryan Tomayko for:
+
+> "I almost wish you could just
+   stick JavaScript in ~/.js. Do
+   you know what I'm saying?"
