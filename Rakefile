@@ -2,15 +2,16 @@ desc "Install dotjs"
 task :install => 'install:all'
 
 namespace :install do
-  task :all => [ :prompt, :chrome, :daemon, :agent, :done ]
+  task :all => [ :prompt, :chrome, :safari, :daemon, :agent, :done ]
 
   task :prompt do
     puts "\e[1m\e[32mdotjs\e[0m"
     puts "\e[1m-----\e[0m"
     puts "I will install:", ""
     puts "1. The 'dotjs' Google Chrome Extension"
-    puts "2. djsd(1) in /usr/local/bin"
-    puts "3. com.github.dotjs in ~/Library/LaunchAgents",""
+    puts "2. The 'dotjs' Safari Extensions"
+    puts "3. djsd(1) in /usr/local/bin"
+    puts "4. com.github.dotjs in ~/Library/LaunchAgents",""
     print "Ok? (y/n) "
 
     begin
@@ -56,13 +57,22 @@ namespace :install do
     puts "Installing Google Chrome extension..."
     sh "open -a 'Google Chrome' builds/dotjs.crx &"
   end
+  
+  desc "Install Safari extension"
+  task :safari do
+    puts "Installing Safari extension..."
+    sh "open '/Applications/Safari.app'"
+    # Safari deletes extension on install, so copy it to tmp
+    sh "cp builds/dotjs.safariextz /tmp/"
+    sh "open /tmp/dotjs.safariextz &"
+  end
 end
 
 desc "Uninstall dotjs"
 task :uninstall => 'uninstall:all'
 
 namespace :uninstall do
-  task :all => [ :prompt, :daemon, :agent, :chrome, :done ]
+  task :all => [ :prompt, :daemon, :agent, :chrome, :safari, :done ]
 
   task :prompt do
     puts "\e[1m\e[32mdotjs\e[0m"
@@ -70,7 +80,8 @@ namespace :uninstall do
     puts "I will remove:", ""
     puts "1. djsd(1) from /usr/local/bin"
     puts "2. com.github.dotjs from ~/Library/LaunchAgents"
-    puts "3. The 'dotjs' Google Chrome Extension",""
+    puts "3. The 'dotjs' Google Chrome Extension"
+    puts "4. The 'dotjs' Safari Extensions", ""
     puts "I will not remove:", ""
     puts "1. ~/.js", ""
     print "Ok? (y/n) "
@@ -114,5 +125,11 @@ namespace :uninstall do
   task :chrome do
     puts "\e[1mplease uninstall the google chrome extension manually:\e[0m"
     puts "google chrome > window > extensions > dotjs > uninstall"
+  end
+  
+  desc "Uninstall Safari extension"
+  task :safari do
+    puts "\e[1mplease uninstall the safari extension manually:\e[0m"
+    puts "safari > preferences > extensions > dotjs > uninstall"
   end
 end
