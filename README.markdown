@@ -47,28 +47,50 @@ the returned JavaScript.
 
 ## Requires
 
-- OS X
+- OS X or Ubuntu
 - Ruby 1.8
 - rake (gem install rake)
 - Google Chrome
-- `/usr/local/bin` in your $PATH
+- `/usr/local/bin` in your $PATH (OSX)
+- `/path/to/home/bin` in your $PATH (Ubuntu)
 
-## Install it
+## OSX Install
 
     git clone http://github.com/defunkt/dotjs.git
     cd dotjs
     rake install
+
+## Ubuntu Install
+
+    git clone http://github.com/defunkt/dotjs.git
+    cd dotjs
+    rake -f RakeFile-Ubuntu install
+
+After installation add the following line to your crontab
+
+    $ crontab -e
+    @reboot /path/to/home/bin/djsd_daemon
+
+For the impatient run the daemon right away
+
+    djsd_daemon
+
+For the patient reboot and enjoy!
 
 ## Chromium vs Google Chrome
 
 Multiple Chromes installed? Drag builds/dotjs.crx to
 whichever is your favorite.
 
-## Uninstall it
+## Uninstall OSX
 
     rake uninstall
 
+## Uninstall Ubuntu
+
+   rake -f RakeFile-Ubuntu uninstall
+
 ## Credits
 
--   Icon: <http://raphaeljs.com/icons/>
+- Icon: <http://raphaeljs.com/icons/>
 - jQuery: <http://jquery.com/>
