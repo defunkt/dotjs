@@ -81,3 +81,4 @@ whichever is your favorite.
 ## Other Browers
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
+- [Safari Extensions](https://github.com/wfarr/dotjs.safariextension)
