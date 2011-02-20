@@ -77,3 +77,7 @@ whichever is your favorite.
 > "I almost wish you could just
    stick JavaScript in ~/.js. Do
    you know what I'm saying?"
+
+## Other Browers
+
+- [Firefox Add-on](https://github.com/rlr/dotjs-addon)
