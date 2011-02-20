@@ -48,7 +48,7 @@ namespace :install do
 
   desc "Install dotjs daemon"
   task :daemon do
-    cp "bin/djsd", "/usr/local/bin", :verbose => true
+    cp "bin/djsd", "/usr/local/bin", :verbose => true, :preserve => true
   end
 
   desc "Install Google Chrome extension"
