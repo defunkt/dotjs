@@ -15,19 +15,17 @@ require 'webrick'
 
 dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   def do_GET(request, response)
-    file = File.expand_path("~/.js/#{request.path.gsub('/','')}")
+    file    = File.expand_path("~/.js/#{request.path.gsub('/','')}")
+    default = File.expand_path("~/.js/default.js")
 
-    response.status = File.exists?(file) ? 200 : 204
+    body = ''
+    body << File.read(default) + "\n" if File.exists?(default)
+    body << File.read(file) if File.exists?(file)
+
+    response.status = body.empty? ? 204 : 200
     response['Access-Control-Allow-Origin'] = '*'
     response['Content-Type'] = 'text/javascript'
-    response.body =
-      response.status == 200 ? "#{default_js}\n#{File.read(file)}" : ''
-  end
-
-  def default_js
-    if File.exist? file = File.expand_path("~/.js/default.js")
-      File.read(file)
-    end
+    response.body = body
   end
 end
 
