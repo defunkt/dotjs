@@ -20,7 +20,14 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
     response.status = File.exists?(file) ? 200 : 204
     response['Access-Control-Allow-Origin'] = '*'
     response['Content-Type'] = 'text/javascript'
-    response.body = response.status == 200 ? File.read(file) : ''
+    response.body =
+      response.status == 200 ? "#{default_js}\n#{File.read(file)}" : ''
+  end
+
+  def default_js
+    if File.exist? file = File.expand_path("~/.js/default.js")
+      File.read(file)
+    end
   end
 end
 
