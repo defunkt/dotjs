@@ -40,6 +40,7 @@ namespace :install do
     plist = "com.github.dotjs.plist"
     agent = File.expand_path("~/Library/LaunchAgents/#{plist}")
     cp plist, agent, :verbose => true
+    chmod 0644, agent
     puts "starting djdb..."
     sh "launchctl load -w #{agent}"
     # wait for server to start
