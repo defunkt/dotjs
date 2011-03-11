@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 
 if (%w( -h --help -help help ) & ARGV).length > 0
   puts "usage: djsd [-hv]"
@@ -15,17 +16,38 @@ require 'webrick'
 
 dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   def do_GET(request, response)
-    file    = File.expand_path("~/.js/#{request.path.gsub('/','')}")
-    default = File.expand_path("~/.js/default.js")
-
     body = ''
-    body << File.read(default) + "\n" if File.exists?(default)
-    body << File.read(file) if File.exists?(file)
+    body << js('default.js')
+    body << js(request.path.to_s.gsub('/',''))
 
     response.status = body.empty? ? 204 : 200
     response['Access-Control-Allow-Origin'] = '*'
     response['Content-Type'] = 'text/javascript'
     response.body = body
+  end
+
+  def js(path)
+    if File.exists? path = File.expand_path("~/.js/#{path}")
+      File.read(path) + ";\n"
+    elsif File.exists? path = path.sub(/js$/, 'coffee')
+      coffee(path)
+    else
+      ''
+    end
+  end
+
+  def coffee(path)
+    js = `coffee -bp #{path} 2>&1`
+
+    case $?.exitstatus
+    when 0
+      js
+    when 127
+      "console.error('dotjs — `coffee\\' executable not found');"
+    else
+      error = js.split("\n").first
+      "console.error('dotjs — %s', #{error.inspect});"
+    end
   end
 end
 
