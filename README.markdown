@@ -86,3 +86,4 @@ whichever is your favorite.
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
 - [Safari Extension](https://github.com/wfarr/dotjs.safariextension)
+- [Fluid UserScript](https://github.com/sj26/dotjs-fluid)
