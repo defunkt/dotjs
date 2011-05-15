@@ -1,3 +1,5 @@
+require 'erb'
+
 desc "Install dotjs"
 task :install => 'install:all'
 
@@ -39,7 +41,11 @@ namespace :install do
   task :agent do
     plist = "com.github.dotjs.plist"
     agent = File.expand_path("~/Library/LaunchAgents/#{plist}")
-    cp plist, agent, :verbose => true
+
+    File.open(agent, "w") do |f|
+      f.puts ERB.new(IO.read(plist)).result(binding)
+    end
+
     chmod 0644, agent
     puts "starting djdb..."
     sh "launchctl load -w #{agent}"

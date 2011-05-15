@@ -13,6 +13,6 @@
   <key>RunAtLoad</key>
   <true/>
   <key>WorkingDirectory</key>
-  <string>/usr/local</string>
+  <string><%= File.join(ENV['HOME'], ".js") %></string>
 </dict>
 </plist>
