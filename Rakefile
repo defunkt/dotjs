@@ -1,15 +1,19 @@
+require 'erb'
+
 desc "Install dotjs"
 task :install => 'install:all'
 
+DAEMON_INSTALL_TARGET = "/usr/local/bin"
+
 namespace :install do
-  task :all => [ :prompt, :chrome, :daemon, :agent, :done ]
+  task :all => [ :prompt, :daemon, :agent, :chrome, :done ]
 
   task :prompt do
     puts "\e[1m\e[32mdotjs\e[0m"
     puts "\e[1m-----\e[0m"
     puts "I will install:", ""
     puts "1. The 'dotjs' Google Chrome Extension"
-    puts "2. djsd(1) in /usr/local/bin"
+    puts "2. djsd(1) in #{DAEMON_INSTALL_TARGET}"
     puts "3. com.github.dotjs in ~/Library/LaunchAgents",""
     print "Ok? (y/n) "
 
@@ -39,7 +43,11 @@ namespace :install do
   task :agent do
     plist = "com.github.dotjs.plist"
     agent = File.expand_path("~/Library/LaunchAgents/#{plist}")
-    cp plist, agent, :verbose => true
+
+    File.open(agent, "w") do |f|
+      f.puts ERB.new(IO.read(plist)).result(binding)
+    end
+
     chmod 0644, agent
     puts "starting djdb..."
     sh "launchctl load -w #{agent}"
@@ -48,8 +56,8 @@ namespace :install do
   end
 
   desc "Install dotjs daemon"
-  task :daemon do
-    cp "bin/djsd", "/usr/local/bin", :verbose => true, :preserve => true
+  task :daemon => ["common:has_permission_to_install_dir"] do
+    cp "bin/djsd", DAEMON_INSTALL_TARGET, :verbose => true, :preserve => true
   end
 
   desc "Install Google Chrome extension"
@@ -69,7 +77,7 @@ namespace :uninstall do
     puts "\e[1m\e[32mdotjs\e[0m"
     puts "\e[1m-----\e[0m"
     puts "I will remove:", ""
-    puts "1. djsd(1) from /usr/local/bin"
+    puts "1. djsd(1) from #{DAEMON_INSTALL_TARGET}"
     puts "2. com.github.dotjs from ~/Library/LaunchAgents"
     puts "3. The 'dotjs' Google Chrome Extension",""
     puts "I will not remove:", ""
@@ -107,13 +115,20 @@ namespace :uninstall do
   end
 
   desc "Uninstall dotjs daemon"
-  task :daemon do
-    rm "/usr/local/bin/djsd", :verbose => true
+  task :daemon => ["common:has_permission_to_install_dir"] do
+    rm File.join(DAEMON_INSTALL_TARGET, "djsd"), :verbose => true
   end
 
   desc "Uninstall Google Chrome extension"
   task :chrome do
     puts "\e[1mplease uninstall the google chrome extension manually:\e[0m"
     puts "google chrome > window > extensions > dotjs > uninstall"
+  end
+end
+
+namespace :common do
+  desc "Checking write permissions on #{DAEMON_INSTALL_TARGET}"
+  task :has_permission_to_install_dir do
+    raise "Error: Unable to write to #{DAEMON_INSTALL_TARGET}. Try running using 'sudo'." if not File.writable?(DAEMON_INSTALL_TARGET)
   end
 end

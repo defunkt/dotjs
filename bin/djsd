@@ -15,8 +15,8 @@ require 'webrick'
 
 dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   def do_GET(request, response)
-    file    = File.expand_path("~/.js/#{request.path.gsub('/','')}")
-    default = File.expand_path("~/.js/default.js")
+    file    = File.expand_path("#{request.path.gsub('/','')}")
+    default = File.expand_path("default.js")
 
     body = ''
     body << File.read(default) + "\n" if File.exists?(default)
