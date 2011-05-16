@@ -3,7 +3,7 @@ require 'erb'
 desc "Install dotjs"
 task :install => 'install:all'
 
-DAEMON_INSTALL_TARGET = "/usr/local/bin"
+DAEMON_INSTALL_DIR = "/usr/local/bin"
 
 namespace :install do
   task :all => [ :prompt, :daemon, :agent, :chrome, :done ]
@@ -13,7 +13,7 @@ namespace :install do
     puts "\e[1m-----\e[0m"
     puts "I will install:", ""
     puts "1. The 'dotjs' Google Chrome Extension"
-    puts "2. djsd(1) in #{DAEMON_INSTALL_TARGET}"
+    puts "2. djsd(1) in #{DAEMON_INSTALL_DIR}"
     puts "3. com.github.dotjs in ~/Library/LaunchAgents",""
     print "Ok? (y/n) "
 
@@ -56,8 +56,8 @@ namespace :install do
   end
 
   desc "Install dotjs daemon"
-  task :daemon => ["common:has_permission_to_install_dir"] do
-    cp "bin/djsd", DAEMON_INSTALL_TARGET, :verbose => true, :preserve => true
+  task :daemon => :install_dir_writeable do
+    cp "bin/djsd", DAEMON_INSTALL_DIR, :verbose => true, :preserve => true
   end
 
   desc "Install Google Chrome extension"
@@ -77,7 +77,7 @@ namespace :uninstall do
     puts "\e[1m\e[32mdotjs\e[0m"
     puts "\e[1m-----\e[0m"
     puts "I will remove:", ""
-    puts "1. djsd(1) from #{DAEMON_INSTALL_TARGET}"
+    puts "1. djsd(1) from #{DAEMON_INSTALL_DIR}"
     puts "2. com.github.dotjs from ~/Library/LaunchAgents"
     puts "3. The 'dotjs' Google Chrome Extension",""
     puts "I will not remove:", ""
@@ -115,8 +115,8 @@ namespace :uninstall do
   end
 
   desc "Uninstall dotjs daemon"
-  task :daemon => ["common:has_permission_to_install_dir"] do
-    rm File.join(DAEMON_INSTALL_TARGET, "djsd"), :verbose => true
+  task :daemon => :install_dir_writeable do
+    rm File.join(DAEMON_INSTALL_DIR, "djsd"), :verbose => true
   end
 
   desc "Uninstall Google Chrome extension"
@@ -126,9 +126,9 @@ namespace :uninstall do
   end
 end
 
-namespace :common do
-  desc "Checking write permissions on #{DAEMON_INSTALL_TARGET}"
-  task :has_permission_to_install_dir do
-    raise "Error: Unable to write to #{DAEMON_INSTALL_TARGET}. Try running using 'sudo'." if not File.writable?(DAEMON_INSTALL_TARGET)
+# Check write permissions on DAEMON_INSTALL_DIR
+task :install_dir_writeable do
+  if not File.writable?(DAEMON_INSTALL_DIR)
+    abort "Error: Can't write to #{DAEMON_INSTALL_DIR}. Try again using `sudo`."
   end
 end
