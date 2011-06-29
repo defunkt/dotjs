@@ -1,0 +1,15 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    if (request.method == "getStatus")
+      sendResponse({extension: localStorage['extension']});
+    else
+      sendResponse({}); // snub them.
+});
+</script>
+</body>
+</html>
