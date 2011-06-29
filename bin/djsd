@@ -1,4 +1,10 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby
+begin
+  require 'coffee-script'
+rescue
+  require 'rubygems'
+  require 'coffee-script'
+end
 
 if (%w( -h --help -help help ) & ARGV).length > 0
   puts "usage: djsd [-hv]"
@@ -18,9 +24,17 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
     file    = File.expand_path("#{request.path.gsub('/','')}")
     default = File.expand_path("default.js")
 
+    STDERR.puts file
+
     body = ''
     body << File.read(default) + "\n" if File.exists?(default)
-    body << File.read(file) if File.exists?(file)
+
+    data = File.read(file) if File.exists?(file)
+    if request.path.split('.').last == "coffee"
+      data = CoffeeScript.compile File.open(file)
+    end
+
+    body << data
 
     response.status = body.empty? ? 204 : 200
     response['Access-Control-Allow-Origin'] = '*'

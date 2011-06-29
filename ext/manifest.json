@@ -2,6 +2,8 @@
   "name": "dotjs",
   "version": "1.3",
   "description": "~/.js",
+  "background_page": "background.html",
+  "options_page": "options.html",
   "icons": { "48": "icon48.png",
             "128": "icon128.png" },
   "content_scripts": [{

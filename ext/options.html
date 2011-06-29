@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title>.js Options</title>
+	<script type="text/javascript">
+
+	// Saves options to localStorage.
+	function save_options() {
+	  var select = document.getElementById("coffee");
+	  var color = select.children[select.selectedIndex].value;
+	  localStorage["extension"] = color;
+
+	  // Update status to let user know options were saved.
+	  var status = document.getElementById("status");
+	  status.innerHTML = "Options Saved.";
+	  setTimeout(function() {
+	    status.innerHTML = "";
+	  }, 750);
+	}
+
+	// Restores select box state to saved value from localStorage.
+	function restore_options() {
+	  var favorite = localStorage["extension"];
+	  if (!favorite) {
+	    return;
+	  }
+	  var select = document.getElementById("coffee");
+	  for (var i = 0; i < select.children.length; i++) {
+	    var child = select.children[i];
+	    if (child.value == favorite) {
+	      child.selected = "true";
+	      break;
+	    }
+	  }
+	}
+	</script>
+</head>
+<body onload="restore_options()">
+	<select id="coffee">
+		<option value="coffee">Coffeescript</option>
+		<option value="js" selected>Plain ol' Javascript</option>
+	</select>
+
+	<br>
+	<button onclick="save_options()">Save</button>
+	<p id="status"></p>
+</body>
+</html>
