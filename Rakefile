@@ -98,6 +98,8 @@ namespace :install_ubuntu do
     puts "Installing Google Chrome extension..."
     if File.exists?('/opt/google/chrome/google-chrome')
       sh "/opt/google/chrome/google-chrome builds/dotjs.crx &"
+    elsif File.exists?('/usr/bin/chromium-browser')
+      sh "/usr/bin/chromium-browser builds/dotjs.crx &"
     end
   end
 end
