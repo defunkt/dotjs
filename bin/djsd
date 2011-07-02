@@ -1,39 +1,42 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env node
 
-if (%w( -h --help -help help ) & ARGV).length > 0
-  puts "usage: djsd [-hv]"
-  puts "starts dotjs server in the foreground. kill with ^C"
-  exit
-end
+process.argv.forEach(function(o){
+		if(o === '-h' || o.indexOf('help') > -1){
+				console.log('usage: djsd [-hv]');
+				console.log('stats dotjs server in the foreground. kill with ^C');
+				process.exit(0);
+		}
+		if(o === '-v'){
+				console.log('djsd 0.0');
+				process.exit(0);
+		}
+});
 
-if ARGV.include?('-v')
-  puts "djsd 1.3"
-  exit
-end
+var fs = require('fs')
+, path = require('path');
+var server = require('http').createServer(function(req, res){
+		if(req.method === 'GET'){
+				var _file = process.env.HOME + '/.js' + '/' + req.url.replace(/\//g, '')
+				, _default = process.env.HOME + '/.js' +'/default.js'
+				, _body = '';
 
-require 'webrick'
+				if(path.existsSync(_default)){
+						_body += fs.readFileSync(_default) + '\n';
+						console.log(_body);
+				}
+				if(req.url !== '/'){
+						if(path.existsSync(_file)){
+								_body += fs.readFileSync(_file) + '\n';
+								console.log(_body);
+						}
+				}
 
-dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
-  def do_GET(request, response)
-    file    = File.expand_path("#{request.path.gsub('/','')}")
-    default = File.expand_path("default.js")
-
-    body = ''
-    body << File.read(default) + "\n" if File.exists?(default)
-    body << File.read(file) if File.exists?(file)
-
-    response.status = body.empty? ? 204 : 200
-    response['Access-Control-Allow-Origin'] = '*'
-    response['Content-Type'] = 'text/javascript'
-    response.body = body
-  end
-end
-
-server = WEBrick::HTTPServer.new(:Port => 3131)
-server.mount('/', dotjs)
-
-%w( INT TERM ).each do |sig|
-  trap(sig) { server.shutdown }
-end
-
-server.start
+				res.statusCode = _body === '' ? 204 : 200;
+				res.setHeader('Access-Control-Allow-Origin', '*');
+				res.setHeader('Content-Type', 'text/javascript');
+				res.end(_body);
+		}else{
+				res.end('');
+		}
+})
+server.listen(3131);
