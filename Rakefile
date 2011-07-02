@@ -6,7 +6,7 @@ task :install => 'install:all'
 DAEMON_INSTALL_DIR = "/usr/local/bin"
 
 namespace :install do
-  task :all => [ :prompt, :daemon, :agent, :chrome, :done ]
+  task :all => [ :prompt, :daemon, :create_dir, :agent, :chrome, :done ]
 
   task :prompt do
     puts "\e[1m\e[32mdotjs\e[0m"
@@ -58,6 +58,14 @@ namespace :install do
   desc "Install dotjs daemon"
   task :daemon => :install_dir_writeable do
     cp "bin/djsd", DAEMON_INSTALL_DIR, :verbose => true, :preserve => true
+  end
+
+  desc "Create ~/.js"
+  task :create_dir do
+    if !File.directory? js_dir = File.join(ENV['HOME'], ".js")
+      mkdir js_dir
+      chmod 0755, js_dir
+    end
   end
 
   desc "Install Google Chrome extension"
