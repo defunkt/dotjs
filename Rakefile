@@ -6,7 +6,7 @@ task :install => 'install:all'
 DAEMON_INSTALL_DIR = "/usr/local/bin"
 
 namespace :install do
-  task :all => [ :prompt, :daemon, :agent, :chrome, :done ]
+  task :all => [ :prompt, :daemon, :create_dir, :agent, :chrome, :done ]
 
   task :prompt do
     puts "\e[1m\e[32mdotjs\e[0m"
@@ -37,6 +37,13 @@ namespace :install do
       puts "\e[31mdotjs installation failed\e[0m"
       puts "check console.app or open an issue"
     end
+  end
+
+  desc "Create ~/.js"
+  task :create_dir do
+     js_dir = File.join(ENV['HOME'], ".js")
+     Dir.mkdir(js_dir)
+    chmod 0755, js_dir
   end
 
   desc "Install launch agent"
