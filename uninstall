@@ -1,0 +1,106 @@
+var prompt, daemon, agent, chrome, done, tasks
+, DAEMON_INSTALL_DIR = '/usr/local/bin'
+// , DAEMON_INSTALL_DIR = __dirname
+, stdin = process.stdin
+, fs = require('fs')
+, path = require('path')
+, exec = require('child_process').exec
+, spawn = require('child_process').spawn
+, doNext = function(){
+		var next = tasks.shift();
+		if(next && typeof next === 'function'){
+				next();
+		}else{
+				process.exit(0);
+		}
+};
+
+prompt = function(){
+		console.log(['dotjs',
+								  '-----',
+								 'I will remove:', '',
+								 '1. djsd(1) from '+DAEMON_INSTALL_DIR,
+								 '2. com.github.dotjs from ~/Library/LaunchAgents',
+								 '3. The \'dotjs\' Google Chrome Extension','', 
+								 'I will not remove:', '',
+								 '1. ~/.js', '',
+								 'Ok? (y/n) '].join('\n'));
+		stdin.resume();
+		stdin.setEncoding('utf8');
+		stdin.once('data', function(chunk){
+				if(chunk){
+						var answer = chunk.toLowerCase();
+						if(!answer.match(/(k|ok|y|yes|n|no)/)){
+								console.log('(psst... please type y or n)');
+								console.log('Uninstall dotjs? (y/n)');
+						}else{
+								if(answer === 'n' || answer === 'no'){
+										process.exit(0);
+								}else{
+										stdin.pause();
+										doNext();
+								}
+						}
+				}
+		});
+};
+
+done = function(){
+    exec('curl http://localhost:3131 &> /dev/null', function(err, stdout, stderr){
+				if(!err){
+						console.log( 'dotjs uninstall failed');
+						console.log( 'djsd is still running');
+						process.exit(-1);
+				}else{
+						console.log( 'dotjs uninstall worked');
+						console.log( 'your ~/.js was not touched');
+						doNext();
+				}
+		});
+}
+
+agent = function(){
+    var plist = 'com.github.dotjs.plist'
+    , agent = process.env.HOME + '/Library/LaunchAgents/'+plist;
+
+    exec('launchctl unload '+agent, function(err, stdout, stderr){
+				if(err){
+						console.log('unload plist failur');
+				}
+				if(path.existsSync(agent)){
+						fs.unlinkSync(agent, function(err){
+								if(err){
+										console.log('remove plist '+agent+' failur');
+										process.exit(-1)
+								}
+								console.log('remove plist '+agent+' success');
+								doNext();
+						});
+				}else{
+						doNext();
+				}
+		});
+};
+
+
+daemon = function(){
+		if(path.existsSync(DAEMON_INSTALL_DIR + '/djsd')){
+				fs.unlinkSync(DAEMON_INSTALL_DIR + '/djsd', function(err){
+						if(err){
+								console.log('remove bin '+DAEMON_INSTALL_DIR + '/djsd'+' failur');
+								process.exit(-1);
+						}
+						doNext();
+				});
+		}else{
+				doNext();
+		}
+};
+
+chrome = function(){
+    console.log( 'please uninstall the google chrome extension manually');
+    console.log( 'google chrome > window > extensions > dotjs > uninstall');
+		doNext();
+}
+tasks = [prompt, daemon, agent, chrome, done ];
+tasks.shift()();

@@ -1,0 +1,144 @@
+var prompt, daemon, agent, chrome, done, tasks
+, DAEMON_INSTALL_DIR = '/usr/local/bin'
+// , DAEMON_INSTALL_DIR = __dirname
+, stdin = process.stdin
+, fs = require('fs')
+, path = require('path')
+, exec = require('child_process').exec
+, spawn = require('child_process').spawn
+, doNext = function(){
+		var next = tasks.shift();
+		if(next && typeof next === 'function'){
+				next();
+		}else{
+				process.exit(0);
+		}
+};
+
+prompt = function(){
+    console.log(['dotjs',
+								 '-----',
+								 'I will install:','',
+								 '1. The \'dotjs\' Google Chrome Extension',
+								 '2. djsd(1) in ' + DAEMON_INSTALL_DIR,
+								 '3. com.github.dotjs in ~/Library/LaunchAgents', '',
+								 'Ok? (y/n)'].join('\n'));
+		stdin.resume();
+		stdin.setEncoding('utf8');
+		stdin.once('data', function(chunk){
+				if(chunk){
+						var answer = chunk.toLowerCase();
+						if(!answer.match(/(k|ok|y|yes|n|no)/)){
+								console.log('(psst... please type y or n)');
+								console.log('Install dotjs? (y/n)');
+						}else{
+								if(answer === 'n' || answer === 'no'){
+										process.exit(0);
+								}else{
+										stdin.pause();
+										doNext();
+								}
+						}
+				}
+		});
+};
+
+daemon = function(){
+		try{
+				fs.unlinkSync(DAEMON_INSTALL_DIR + '/djsd');
+				fs.linkSync('bin/djsd', DAEMON_INSTALL_DIR + '/djsd');
+				setTimeout(function(){
+						var startDjsd = spawn('node', [DAEMON_INSTALL_DIR + '/djsd']);
+						exec('ps axu | grep djsd', function(err, stdout, stderr){
+								if(err){
+										console.log('cannot startd djsd.');
+										process.exit(-1);
+								}
+								if(stdout.match(/bin\/djsd/m)){
+										doNext();
+								}else{
+										console.log('cannot startd djsd.');
+										process.exit(-1);
+								}
+						});
+				}, 1000);
+								
+		}catch(ex){
+				console.log('Error: Can\'t write to '+DAEMON_INSTALL_DIR+'. Try again using `sudo`.');
+				process.exit(-1);
+		}
+};
+
+agent = function(){
+		var plist = 'com.github.dotjs.plist'
+		, agent = process.env.HOME + '/Library/LaunchAgents/'+plist;
+		try{
+				var input = fs.readFileSync(plist, 'utf8');
+				var output = fs.writeFileSync(agent, input.replace(/<%=\s*([^\%]+)%>/g,
+																													 function(m, o){
+																															 if(o.match(/DAEMON_INSTALL_DIR/)){
+																																	 return DAEMON_INSTALL_DIR;
+																															 }else if(o.match(/File\.join\(ENV\['HOME'\],\s\"\.js\"\)/)){
+																																	 return process.env.HOME+'/.js';
+																															 }
+																													 }), 'utf8');
+				fs.chmodSync(agent, '0644');
+				console.log('starting djdb...');
+				exec('launchctl load -w '+agent, function(err, stdout, stderr){
+						if(err){
+								console.log('exec plist failur');
+								process.exit(-1);
+						}
+						setTimeout(function(){
+								doNext();
+						}, 5000);
+				});
+		}catch(ex){
+				console.log('there are some troubles');
+				process.exit(-1);
+		}
+};
+
+chrome = function(){
+		console.log('Installing Google Chrome extension...');
+		exec('open -a \'Google Chrome\' builds/dotjs.crx &', function(err, stdout, stderr){
+				stdin.resume();
+				console.log('install OK? (y/n)');
+				stdin.once('data', function(chunk){
+						if(chunk){
+								var answer = chunk.toLowerCase();
+								if(!answer.match(/(k|ok|y|yes|n|no)/)){
+										console.log('(psst... please type y or n)');
+										console.log('Install chrome extension? (y/n)');
+								}else{
+										if(answer === 'n' || answer === 'no'){
+												process.exit(0);
+										}else{
+												stdin.pause();
+												doNext();
+										}
+								}
+						}
+				});
+		});
+};
+
+done = function(){
+		exec('wget http://localhost:3131 -O -', function(err, stdout, stderr){
+				if(!err){
+						console.log('dotjs installation worked');
+						console.log('drop files like google.com.js in ~/.js and enjoy hacking the web');
+						doNext();
+				}else{
+						console.log(err);
+						console.log(err.message);
+						console.log('dotjs installation failed');
+						console.log('check console.app or open an issue');
+						process.exit(-1);
+				}
+		});
+};
+
+
+tasks = [prompt, daemon, agent, chrome, done];
+tasks.shift()();
