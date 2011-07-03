@@ -5,6 +5,7 @@
   "icons": { "48": "icon48.png",
             "128": "icon128.png" },
   "content_scripts": [{
+    "all_frames": true,
     "run_at":     "document_start",
     "matches":    ["http://*/*", "https://*/*"],
     "js":         ["jquery.js", "dotjs.js"]
