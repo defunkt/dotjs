@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>Symbolic link information for dotjs</title>
+    <style type="text/css">
+      .info { white-space: pre; opacity: 0.2; font-size: 0.5em; }
+      .show { opacity: 1; font-size: 1em; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+      
+    <script type="text/javascript">
+      function showInstructionsForOs() {
+        detect("Win", "windows");
+        detect("Mac", "mac");
+        detect("Linux", "linux");
+
+      }
+
+      function detect(osSubstring, idOfOSToShow) {
+        if (navigator.platform.indexOf(osSubstring) != -1) {
+          $("#" + idOfOSToShow).toggleClass("show");
+          $("#other").toggleClass("show");
+        }
+      }
+
+      window.onload = showInstructionsForOs;
+    </script>
+  </head>
+  <body>
+    <div id="mac" class="info">
+      It looks like you're using a Mac. Here's the location of the scripts directory for dotjs:
+      ~/Library/Application Support/Google/Chrome/Default/Extensions/fcmioojcnohimpgepefmdndlejgghdni/1.3_3/scripts
+
+      You can use the Terminal application to create a symbolic link to it using:
+      ln -s ~/Library/Application\ Support/Google/Chrome/Default/Extensions/fcmioojcnohimpgepefmdndlejgghdni/1.3_3/scripts/ ~/.js
+    </div>
+
+    <div id="linux" class="info">
+      It looks like you're using Linux. Here's the location of the scripts directory for dotjs:
+      ~/.config/google-chrome/Default/Extensions/fcmioojcnohimpgepefmdndlejgghdni/1.3_3/scripts
+
+      You can use a terminal client to create a symbolic link to it using:
+      ln -s ~/.config/google-chrome/Default/Extensions/fcmioojcnohimpgepefmdndlejgghdni/1.3_3/scripts/ ~/.js
+    </div>
+
+    <div id="windows" class="info">
+      It looks like you're using Windows. Here's the location of the scripts directory for dotjs:
+      C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default\Extensions\fcmioojcnohimpgepefmdndlejgghdni\1.3_3\scripts\
+
+      Please edit your dotjs scripts there.
+    </div>
+
+    <div id="other" class="info show">
+      Unable to find any information about your operating system. Use the link below to find the Chrome user data directory
+      on your system and go to:
+      USER-DATA-DIRECTORY/Extensions/fcmioojcnohimpgepefmdndlejgghdni/1.3_3/scripts/
+    </div>
+
+    <span class="info show">For more information, see <a href="http://www.chromium.org/user-experience/user-data-directory">this page</a></span>
+  </body>
+</html>
