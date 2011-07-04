@@ -1,10 +1,10 @@
-$.ajax({
-  url: 'http://localhost:3131/'+window.location.host.replace('www.','')+'.js',
-  dataType: 'text',
-  success: function(d){
-    $(function(){ eval(d) })
-  },
-  error: function(){
-    console.log('no dotjs server found at localhost:3131')
-  }
-})
+function apply(file) {
+  var pathToScript = chrome.extension.getURL("scripts/" + file);
+
+  console.log("dotjs fetching: " + pathToScript)
+  chrome.extension.sendRequest({'action': 'fetchScript', 'url': pathToScript},
+    function(script) { if (script != null && script != "") { eval(script); } });
+}
+
+apply("default.js");
+apply(window.location.host + ".js");

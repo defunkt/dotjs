@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <script>
+      function onRequest(request, sender, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(data) {
+          if (xhr.readyState == 4) {
+            // xhr.status is 0, not 200. Weird. But, works. So, not checking it.
+            callback(xhr.responseText);
+          }
+        }
+
+        xhr.open('GET', request.url, true);
+        xhr.send();
+      };
+
+      chrome.extension.onRequest.addListener(onRequest);
+    </script>
+  </body>
+</html>
