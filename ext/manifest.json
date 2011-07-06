@@ -1,6 +1,6 @@
 {
   "name": "dotjs",
-  "version": "1.3",
+  "version": "1.3.1",
   "description": "~/.js",
   "icons": { "48": "icon48.png",
             "128": "icon128.png" },
@@ -8,7 +8,7 @@
     "all_frames": true,
     "run_at":     "document_start",
     "matches":    ["http://*/*", "https://*/*"],
-    "js":         ["jquery.js", "dotjs.js"]
+    "js":         ["jquery-1.6.2.min.js", "dotjs.js"]
   }],
   "permissions": [
     "tabs"
