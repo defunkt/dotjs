@@ -82,6 +82,10 @@ whichever is your favorite.
    stick JavaScript in ~/.js. Do
    you know what I'm saying?"
 
+## Linux
+
+- [dotjs-ubuntu](https://github.com/glenbot/dotjs-ubuntu)
+
 ## Other Browers
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
