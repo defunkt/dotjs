@@ -60,11 +60,19 @@ namespace :install do
     cp "bin/djsd", DAEMON_INSTALL_DIR, :verbose => true, :preserve => true
   end
 
-  desc "Create ~/.js"
+  desc "Create ~/.js, ~/.css, and ~/.images"
   task :create_dir do
     if !File.directory? js_dir = File.join(ENV['HOME'], ".js")
       mkdir js_dir
       chmod 0755, js_dir
+    end
+    if !File.directory? css_dir = File.join(ENV['HOME'], ".css")
+      mkdir css_dir
+      chmod 0755, css_dir
+    end
+    if !File.directory? images_dir = File.join(ENV['HOME'], ".images")
+      mkdir images_dir
+      chmod 0755, images_dir
     end
   end
 
@@ -90,6 +98,8 @@ namespace :uninstall do
     puts "3. The 'dotjs' Google Chrome Extension",""
     puts "I will not remove:", ""
     puts "1. ~/.js", ""
+    puts "2. ~/.css", ""
+    puts "3. ~/.images", ""
     print "Ok? (y/n) "
 
     begin
