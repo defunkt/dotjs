@@ -23,7 +23,6 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
     body << File.read(file) if File.file?(file)
 
     response.status = body.empty? ? 204 : 200
-    response['Access-Control-Allow-Origin'] = '*'
     response['Content-Type'] = 'text/javascript'
     response.body = body
   end
