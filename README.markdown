@@ -9,7 +9,7 @@ will execute `~/.js/google.com.js`.
 This makes it super  easy to spruce up your favorite
 pages using JavaScript.
 
-Bonus:  files  in `~/.js`  have  jQuery 1.6  loaded,
+Bonus:  files  in `~/.js`  have jQuery 1.6.2 loaded,
 regardless  of  whether  the  site  you're  hacking
 uses jQuery.
 
