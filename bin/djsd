@@ -23,13 +23,21 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
     body << File.read(file) if File.file?(file)
 
     response.status = body.empty? ? 204 : 200
-    if request.header['origin'].length == 1 and
-      request.path.length != 1 and
-      request.header['origin'][0].match(request.path.gsub('/','').gsub(/\.js$/,'') + '$')
-        response['Access-Control-Allow-Origin'] = request.header['origin'][0]
+    if origin = detect_origin(request)
+      response['Access-Control-Allow-Origin'] = origin
     end
     response['Content-Type'] = 'text/javascript'
     response.body = body
+  end
+
+  def detect_origin(req)
+    path   = req.path
+    origin = req.header['origin']
+    search = path.gsub('/','').gsub(/\.js$/,'') + '$'
+
+    if origin.length == 1 && path.length != 1 && origin[0].match(search)
+      origin[0]
+    end
   end
 end
 
