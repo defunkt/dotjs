@@ -1,6 +1,6 @@
 {
   "name": "dotjs",
-  "version": "1.4",
+  "version": "1.5",
   "description": "~/.js",
   "icons": { "48": "icon48.png",
             "128": "icon128.png" },
