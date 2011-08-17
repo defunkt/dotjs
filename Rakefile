@@ -42,8 +42,9 @@ namespace :install do
   desc "Install launch agent"
   task :agent do
     plist = "com.github.dotjs.plist"
-    agent = File.expand_path("~/Library/LaunchAgents/#{plist}")
-
+    agent_dir = File.expand_path("~/Library/LaunchAgents/")
+    agent = File.join(agent_dir, plist)
+    Dir.mkdir(agent_dir) unless File.exists?(agent_dir)
     File.open(agent, "w") do |f|
       f.puts ERB.new(IO.read(plist)).result(binding)
     end
