@@ -14,19 +14,38 @@ end
 require 'webrick'
 
 dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
-  def do_GET(request, response)
-    file    = File.expand_path("#{request.path.gsub('/','')}")
-    default = File.expand_path("default.js")
+  IMAGE_TYPES = %w(.png .jpg .gif)
 
-    body = "// dotjs is working! //\n"
-    body << File.read(default) + "\n" if File.file?(default)
-    body << File.read(file) if File.file?(file)
+  def do_GET(request, response)
+    files = []
+    ext = File.extname(request.path)
+    case
+      when ext == '.js'
+        files << File.expand_path("~/.js/default.js")
+        files << File.expand_path("~/.js/#{request.path.gsub('/','')}")
+        mime_type = 'text/javascript'
+      when ext == '.css'
+        files <<  File.expand_path("~/.js/css/default.css")
+        files <<  File.expand_path("~/.js/css/#{request.path.gsub('/','')}")
+        mime_type = 'text/css'
+      when IMAGE_TYPES.include?(ext)
+        files << File.expand_path("~/.js/images/#{request.path.gsub('/','')}")
+        mime_type = "image/#{ext[1 .. -1]}"
+      else
+        puts "oops"
+    end
+
+    body = ''
+    files.each do |f|
+      body << File.read(f) if File.exists?(f)
+      body << "\n"
+    end
 
     response.status = body.empty? ? 204 : 200
     if origin = detect_origin(request)
       response['Access-Control-Allow-Origin'] = origin
     end
-    response['Content-Type'] = 'text/javascript'
+    response['Content-Type'] = mime_type
     response.body = body
   end
 

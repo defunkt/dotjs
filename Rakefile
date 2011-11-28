@@ -61,11 +61,19 @@ namespace :install do
     cp "bin/djsd", DAEMON_INSTALL_DIR, :verbose => true, :preserve => true
   end
 
-  desc "Create ~/.js"
+  desc "Create ~/.js/{css,images}"
   task :create_dir do
     if !File.directory? js_dir = File.join(ENV['HOME'], ".js")
       mkdir js_dir
       chmod 0755, js_dir
+    end
+    if !File.directory? css_dir = File.join(ENV['HOME'], ".js", "css")
+      mkdir css_dir
+      chmod 0755, css_dir
+    end
+    if !File.directory? images_dir = File.join(ENV['HOME'], ".js", "images")
+      mkdir images_dir
+      chmod 0755, images_dir
     end
   end
 
