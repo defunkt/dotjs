@@ -19,8 +19,8 @@ functions in it.
 
 Triple bonus:  Include CSS and  image files  in your
 .js files and serve them from  your local dirs.  CSS
-files  in  `~/.css` and  .gif, .jpg, and .png  files
-from `~/images`.
+files  in  `~/.js/css` and  .gif, .jpg, and .png  files
+from `~/.js/images`.
 
 GreaseMonkey user scripts are great, but you need to
 publish them  somewhere and re-publish  after making
