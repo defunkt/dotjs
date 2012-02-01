@@ -26,12 +26,13 @@ modifications. With dotjs, just add or edit files in
 
     $ cat ~/.js/github.com.js
     // swap github logo with trollface
-    $('#header .logo img')
-      .css('width', '100px')
+    $('#header .site-logo img')
+      .css('width', '97px')
+      .css('height', '80px')
       .css('margin-top', '-15px')
       .attr('src', '//bit.ly/ghD24e')
 
-![](https://bit.ly/gAHTbC)
+![](http://cl.ly/G3UB)
 
 ## How It Works
 
