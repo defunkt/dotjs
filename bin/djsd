@@ -15,19 +15,34 @@ require 'webrick'
 
 dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   def do_GET(request, response)
-    file    = File.expand_path("#{request.path.gsub('/','')}")
-    default = File.expand_path("default.js")
-
-    body = "// dotjs is working! //\n"
-    body << File.read(default) + "\n" if File.file?(default)
-    body << File.read(file) if File.file?(file)
-
+    files = all_files_for(request.path.gsub('/', ''))
+    body = build_body(files)
     response.status = body.empty? ? 204 : 200
+
     if origin = detect_origin(request)
       response['Access-Control-Allow-Origin'] = origin
     end
+
     response['Content-Type'] = 'text/javascript'
     response.body = body
+  end
+
+  def all_files_for(path)
+    files = []
+
+    while(path =~ /\..+\.js/) #loop while we have anything ore than com.js
+      files.unshift(path)
+      path = path.sub(/.*?\./, '') #removing the first sub domain
+    end
+
+    files.unshift("default.js")
+  end
+
+  def build_body(files)
+    files.map do |file|
+      file = File.expand_path(file)
+      File.read(file) if File.file?(file)
+    end.compact.join("\n")
   end
 
   def detect_origin(req)
@@ -41,7 +56,8 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   end
 end
 
-server = WEBrick::HTTPServer.new(:Port => 3131)
+port = ARGV.join(" ").match(/-p (\d+)/)[1] || 3131
+server = WEBrick::HTTPServer.new(:Port => port)
 server.mount('/', dotjs)
 
 %w( INT TERM ).each do |sig|
