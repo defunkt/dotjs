@@ -56,7 +56,8 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   end
 end
 
-port = ARGV.join(" ").match(/-p (\d+)/)[1] || 3131
+port_config = ARGV.join(" ").match(/-p (\d+)/)
+port = port_config ? port_config[1] : 3131
 server = WEBrick::HTTPServer.new(:Port => port)
 server.mount('/', dotjs)
 
