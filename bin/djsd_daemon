@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+if (%w( -h --help -help help ) & ARGV).length > 0
+  puts "usage: djsd [-hv]"
+  puts "starts dotjs server in the foreground. kill with ^C"
+  exit
+end
+
+if ARGV.include?('-v')
+  puts "djsd 1.0"
+  exit
+end
+
+require 'webrick'
+
+dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
+  def do_GET(request, response)
+    file = File.expand_path("~/.js/#{request.path.gsub('/','')}")
+
+    response.status = File.exists?(file) ? 200 : 204
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Content-Type'] = 'text/javascript'
+    response.body = response.status == 200 ? File.read(file) : ''
+  end
+end
+
+server = WEBrick::HTTPServer.new(:Port => 3131, :ServerType => WEBrick::Daemon)
+server.mount('/', dotjs)
+
+%w( INT TERM ).each do |sig|
+  trap(sig) { server.shutdown }
+end
+
+server.start
