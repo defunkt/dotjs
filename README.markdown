@@ -26,7 +26,7 @@ modifications. With dotjs, just add or edit files in
 
     $ cat ~/.js/github.com.js
     // swap github logo with trollface
-    $('#header .logo img')
+    $('.site-logo img')
       .css('width', '100px')
       .css('margin-top', '-15px')
       .attr('src', '//bit.ly/ghD24e')
