@@ -87,7 +87,7 @@ whichever is your favorite.
 
 - [dotjs-ubuntu](https://github.com/glenbot/dotjs-ubuntu)
 
-## Other Browers
+## Other Browsers
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
 - [Safari Extension](https://github.com/wfarr/dotjs.safariextension)
