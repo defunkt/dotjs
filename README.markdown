@@ -91,7 +91,7 @@ whichever is your favorite.
 
 - [dotjs-win](https://github.com/p3lim/dotjs-win)
 
-## Other Browers
+## Other Browsers
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
 - [Safari Extension](https://github.com/wfarr/dotjs.safariextension)
