@@ -3,7 +3,7 @@ require 'erb'
 desc "Install dotjs"
 task :install => 'install:all'
 
-DAEMON_INSTALL_DIR = "/usr/local/bin"
+DAEMON_INSTALL_DIR = ENV['PREFIX'] || "/usr/local/bin"
 
 namespace :install do
   task :all => [ :prompt, :daemon, :create_dir, :agent, :chrome, :done ]
