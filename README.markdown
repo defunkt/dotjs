@@ -87,6 +87,10 @@ whichever is your favorite.
 
 - [dotjs-ubuntu](https://github.com/glenbot/dotjs-ubuntu)
 
+## Windows
+
+- [dotjs-win](https://github.com/p3lim/dotjs-win)
+
 ## Other Browers
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
