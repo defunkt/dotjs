@@ -26,12 +26,22 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   end
 
   def build_body(path)
-    file    = File.expand_path("#{path.gsub('/','')}")
-    default = File.expand_path("default.js")
+    files = [File.expand_path("default.js")]
+    paths = path.gsub('/','').split('.')
+
+    until paths.empty?
+      file = File.expand_path(paths.join('.'))
+      files << file if File.file?(file)
+      paths.shift
+    end
 
     body = "// dotjs is working! //\n"
-    body << File.read(default) + "\n" if File.file?(default)
-    body << File.read(file) if File.file?(file)
+
+    files.each do |file|
+      body << File.read(file) + "\n" if File.file?(file)
+    end
+
+    body
   end
 
   def detect_origin(req)

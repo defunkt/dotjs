@@ -9,6 +9,10 @@ will execute `~/.js/google.com.js`.
 This makes it super  easy to spruce up your favorite
 pages using JavaScript.
 
+On subdomains such as `http://gist.github.com` dotjs
+will try to load `~/.js/gist.github.com.js`  as well
+as `~/.js/github.com.js` and `~/.js/com.js`.
+
 Bonus:  files  in `~/.js`  have jQuery 1.6.2 loaded,
 regardless  of  whether  the  site  you're  hacking
 uses jQuery.
