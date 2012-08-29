@@ -1,4 +1,5 @@
 require 'erb'
+require 'rake/testtask'
 
 desc "Install dotjs"
 task :install => 'install:all'
@@ -140,4 +141,11 @@ task :install_dir_writeable do
   if not File.writable?(DAEMON_INSTALL_DIR)
     abort "Error: Can't write to #{DAEMON_INSTALL_DIR}. Try again using `sudo`."
   end
+end
+
+desc "Run tests"
+Rake::TestTask.new do |t|
+  t.pattern = 'test/*_test.rb'
+  t.verbose = true
+  t.warning = true
 end
