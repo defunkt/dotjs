@@ -12,9 +12,8 @@ namespace :install do
     puts "\e[1m\e[32mdotjs\e[0m"
     puts "\e[1m-----\e[0m"
     puts "I will install:", ""
-    puts "1. The 'dotjs' Google Chrome Extension"
-    puts "2. djsd(1) in #{DAEMON_INSTALL_DIR}"
-    puts "3. com.github.dotjs in ~/Library/LaunchAgents",""
+    puts "1. djsd(1) in #{DAEMON_INSTALL_DIR}"
+    puts "2. com.github.dotjs in ~/Library/LaunchAgents",""
     print "Ok? (y/n) "
 
     begin
@@ -32,7 +31,8 @@ namespace :install do
   task :done do
     if system("curl http://localhost:3131 &> /dev/null")
       puts "\e[1m\e[32mdotjs installation worked\e[0m"
-      puts "drop files like google.com.js in ~/.js and enjoy hacking the web"
+      puts "drag dotjs.crx to Google Chrome"
+      puts "then drop files like google.com.js in ~/.js and enjoy hacking the web"
     else
       puts "\e[31mdotjs installation failed\e[0m"
       puts "check console.app or open an issue"
@@ -71,8 +71,8 @@ namespace :install do
 
   desc "Install Google Chrome extension"
   task :chrome do
-    puts "Installing Google Chrome extension..."
-    sh "open -a 'Google Chrome' builds/dotjs.crx &"
+    puts "", "\e[31mIMPORTANT!\e[0m Drag dotjs.crx to Google Chrome."
+    puts "Chrome won't let me install it for you :(", ""
   end
 end
 
