@@ -31,7 +31,7 @@ namespace :install do
   task :done do
     if system("curl http://localhost:3131 &> /dev/null")
       puts "\e[1m\e[32mdotjs installation worked\e[0m"
-      puts "drag dotjs.crx to Google Chrome"
+      puts "drag builds/dotjs.crx to Google Chrome"
       puts "then drop files like google.com.js in ~/.js and enjoy hacking the web"
     else
       puts "\e[31mdotjs installation failed\e[0m"
@@ -71,7 +71,7 @@ namespace :install do
 
   desc "Install Google Chrome extension"
   task :chrome do
-    puts "", "\e[31mIMPORTANT!\e[0m Drag dotjs.crx to Google Chrome."
+    puts "", "\e[31mIMPORTANT!\e[0m Drag builds/dotjs.crx to Google Chrome."
     puts "Chrome won't let me install it for you :(", ""
   end
 end
