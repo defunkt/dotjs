@@ -32,6 +32,11 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
     until paths.empty?
       file = File.expand_path(paths.join('.'))
       files << file if File.file?(file)
+      # Include files like github.com/pull-request.js or janl/github.com.js,
+      # for modularity and including gists or other people's dotjs files as
+      # subdirs
+      files = files.concat(Dir.glob('**/' + paths.join('.').sub(/.js$/, '/**/*.js')))
+      files = files.concat(Dir.glob('**/' + paths.join('.')))
       paths.shift
     end
 
