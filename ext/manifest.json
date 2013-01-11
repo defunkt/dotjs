@@ -1,7 +1,8 @@
 {
-  "name": "dotjs",
-  "version": "1.6",
-  "description": "~/.js",
+  "manifest_version": 2,
+  "name": "dotjs-remote",
+  "version": "1.0",
+  "description": "~/.js, but remote",
   "icons": { "48": "icon48.png",
             "128": "icon128.png" },
   "content_scripts": [{
@@ -10,6 +11,7 @@
     "matches":    ["http://*/*", "https://*/*"],
     "js":         ["jquery.js", "dotjs.js"]
   }],
+  "options_page": "options.html",
   "permissions": [
     "tabs"
   ]
