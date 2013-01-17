@@ -7,7 +7,7 @@ if (%w( -h --help -help help ) & ARGV).length > 0
 end
 
 if ARGV.include?('-v')
-  puts "djsd 1.6"
+  puts "djsd 1.9"
   exit
 end
 
