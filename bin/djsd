@@ -55,7 +55,7 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   end
 end
 
-server = WEBrick::HTTPServer.new(:Port => 3131, :AccessLog => [])
+server = WEBrick::HTTPServer.new(:BindAddress => "127.0.0.1", :Port => 3131, :AccessLog => [])
 server.mount('/', dotjs)
 
 %w( INT TERM ).each do |sig|
