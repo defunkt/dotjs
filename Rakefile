@@ -72,7 +72,7 @@ namespace :install do
   desc "Install Google Chrome extension"
   task :chrome do
     puts "", "\e[31mIMPORTANT!\e[0m Install the Goole Chrome extension:"
-    puts "https://chrome.google.com/webstore/detail/dotjs/dlnccnmhpmdidoiecanghgienhoglnim"
+    puts "http://bit.ly/dotjs", ""
   end
 end
 
