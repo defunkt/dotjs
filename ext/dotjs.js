@@ -1,5 +1,5 @@
 $.ajax({
-  url: 'http://localhost:3131/'+window.location.hostname.replace('www.','')+'.js',
+  url: 'http://localhost:3131/'+location.hostname.replace(/^www\./,'')+'.js',
   dataType: 'text',
   success: function(d){
     $(function(){ eval(d) })
