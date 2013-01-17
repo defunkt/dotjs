@@ -68,6 +68,8 @@ the returned JavaScript.
     cd dotjs
     rake install
 
+Now open https://localhost:3131 in Chrome and enable the SSL.
+
 Then install the Google Chrome extension:
 
 http://bit.ly/dotjs
