@@ -30,13 +30,13 @@ modifications. With dotjs, just add or edit files in
 
     $ cat ~/.js/github.com.js
     // swap github logo with trollface
-    $('#header .site-logo img')
-      .css('width', '97px')
-      .css('height', '80px')
-      .css('margin-top', '-15px')
-      .attr('src', '//bit.ly/ghD24e')
+    $('a.header-logo-blacktocat').html(
+        $('<img>')
+            .attr('src', '//bit.ly/ghD24e')
+            .css({'width': 'auto', 'height': '22px'})
+        );
 
-![](http://cl.ly/G3UB)
+![](http://puu.sh/1Kjvw)
 
 ## How It Works
 
