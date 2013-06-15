@@ -68,9 +68,15 @@ the returned JavaScript.
     cd dotjs
     rake install
 
-Now open https://localhost:3131 in Chrome and enable the SSL.
+Now open https://localhost:3131 in Chrome and follow these steps:
 
-Then install the Google Chrome extension:
+- Click the "X" Padlock icon in the address bar
+- Click "Certificate Information"
+- Drag the large cert icon to your desktop
+- Open it with Keychain
+- Configure its **Trust** section as shown: http://cl.ly/Pdny
+
+Finally install the Google Chrome extension:
 
 http://bit.ly/dotjs
 
