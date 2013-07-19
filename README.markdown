@@ -1,4 +1,5 @@
-..................... dotjs ........................
+dotjs
+=====
 
 dotjs  is a  Google Chrome  extension  that executes
 JavaScript files in `~/.js` based on their filename.
@@ -26,7 +27,8 @@ publish them  somewhere and re-publish  after making
 modifications. With dotjs, just add or edit files in
 `~/.js`.
 
-## Example
+Example
+-----
 
     $ cat ~/.js/github.com.js
     // swap github logo with trollface
@@ -38,7 +40,8 @@ modifications. With dotjs, just add or edit files in
 
 ![](http://puu.sh/1Kjvw)
 
-## How It Works
+How It Works
+----
 
 Chrome extensions can't access the local filesystem,
 so dotjs  runs a tiny  web server on port  3131 that
