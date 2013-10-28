@@ -1,4 +1,5 @@
 require 'erb'
+require 'fileutils'
 
 desc "Install dotjs"
 task :install => 'install:all'
@@ -135,8 +136,20 @@ namespace :uninstall do
   end
 end
 
+# Make sure DAEMON_INSTALL_DIR exists
+task :install_dir_exists do
+  unless Dir.exists? DAEMON_INSTALL_DIR
+    begin
+      puts "Attempting to create #{DAEMON_INSTALL_DIR}."
+      FileUtils.mkdir_p DAEMON_INSTALL_DIR
+    rescue Errno::EACCES
+      abort "Error: #{DAEMON_INSTALL_DIR} does not exist and I cannot create it. Try again using `sudo`."
+    end
+  end
+end
+
 # Check write permissions on DAEMON_INSTALL_DIR
-task :install_dir_writeable do
+task :install_dir_writeable => :install_dir_exists do
   if not File.writable?(DAEMON_INSTALL_DIR)
     abort "Error: Can't write to #{DAEMON_INSTALL_DIR}. Try again using `sudo`."
   end
