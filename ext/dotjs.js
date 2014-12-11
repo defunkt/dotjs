@@ -1,5 +1,5 @@
 $.ajax({
-  url: 'http://localhost:3131/'+window.location.host.replace('www.','')+'.css',
+  url: 'https://localhost:3131/'+location.hostname.replace(/www\./,'')+'.css',
   dataType: 'text',
   success: function(d) {
     $('head').prepend('<style type="text/css">' + d + '</style>')
@@ -9,7 +9,7 @@ $.ajax({
   }
 });
 $.ajax({
-  url: 'http://localhost:3131/'+window.location.host.replace('www.','')+'.js',
+  url: 'https://localhost:3131/'+location.hostname.replace(/^www\./,'')+'.js',
   dataType: 'text',
   success: function(d){
     $(function(){ eval(d) })

@@ -9,7 +9,11 @@ will execute `~/.js/google.com.js`.
 This makes it super  easy to spruce up your favorite
 pages using JavaScript.
 
-Bonus:  files  in `~/.js`  have jQuery 1.6.2 loaded,
+On subdomains such as `http://gist.github.com` dotjs
+will try to load `~/.js/gist.github.com.js`  as well
+as `~/.js/github.com.js` and `~/.js/com.js`.
+
+Bonus:  files  in `~/.js`  have jQuery 1.9  loaded,
 regardless  of  whether  the  site  you're  hacking
 uses jQuery.
 
@@ -31,12 +35,13 @@ modifications. With dotjs, just add or edit files in
 
     $ cat ~/.js/github.com.js
     // swap github logo with trollface
-    $('#header .logo img')
-      .css('width', '100px')
-      .css('margin-top', '-15px')
-      .attr('src', '//bit.ly/ghD24e')
+    $('a[class^=header-logo-]').html(
+        $('<img>')
+            .attr('src', '//bit.ly/ghD24e')
+            .css({'width': 'auto', 'height': '22px'})
+        );
 
-![](https://bit.ly/gAHTbC)
+![](http://puu.sh/1Kjvw)
 
 
 ## How It Works
@@ -69,10 +74,17 @@ the returned JavaScript.
     cd dotjs
     rake install
 
-## Chromium vs Google Chrome
+Now open https://localhost:3131 in Chrome and follow these steps:
 
-Multiple Chromes installed? Drag builds/dotjs.crx to
-whichever is your favorite.
+- Click the "X" Padlock icon in the address bar
+- Click "Certificate Information"
+- Drag the large cert icon to your desktop
+- Open it with Keychain
+- Configure its **Trust** section as shown: http://cl.ly/Pdny
+
+Finally install the Google Chrome extension:
+
+http://bit.ly/dotjs
 
 ## Uninstall it
 
@@ -92,7 +104,11 @@ whichever is your favorite.
 
 - [dotjs-ubuntu](https://github.com/glenbot/dotjs-ubuntu)
 
-## Other Browers
+## Windows
+
+- [dotjs-win](https://github.com/p3lim/dotjs-win)
+
+## Other Browsers
 
 - [Firefox Add-on](https://github.com/rlr/dotjs-addon)
 - [Safari Extension](https://github.com/wfarr/dotjs.safariextension)

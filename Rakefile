@@ -3,7 +3,7 @@ require 'erb'
 desc "Install dotjs"
 task :install => 'install:all'
 
-DAEMON_INSTALL_DIR = "/usr/local/bin"
+DAEMON_INSTALL_DIR = ENV['PREFIX'] || "/usr/local/bin"
 
 namespace :install do
   task :all => [ :prompt, :daemon, :create_dir, :agent, :chrome, :done ]
@@ -12,9 +12,8 @@ namespace :install do
     puts "\e[1m\e[32mdotjs\e[0m"
     puts "\e[1m-----\e[0m"
     puts "I will install:", ""
-    puts "1. The 'dotjs' Google Chrome Extension"
-    puts "2. djsd(1) in #{DAEMON_INSTALL_DIR}"
-    puts "3. com.github.dotjs in ~/Library/LaunchAgents",""
+    puts "1. djsd(1) in #{DAEMON_INSTALL_DIR}"
+    puts "2. com.github.dotjs in ~/Library/LaunchAgents",""
     print "Ok? (y/n) "
 
     begin
@@ -30,9 +29,10 @@ namespace :install do
   end
 
   task :done do
-    if system("curl http://localhost:3131 &> /dev/null")
+    if system("curl -k https://localhost:3131 &> /dev/null")
       puts "\e[1m\e[32mdotjs installation worked\e[0m"
-      puts "drop files like google.com.js in ~/.js and enjoy hacking the web"
+      puts "open https://localhost:3131 in chrome to enable ssl"
+      puts "then drop files like google.com.js in ~/.js and enjoy hacking the web"
     else
       puts "\e[31mdotjs installation failed\e[0m"
       puts "check console.app or open an issue"
@@ -79,8 +79,8 @@ namespace :install do
 
   desc "Install Google Chrome extension"
   task :chrome do
-    puts "Installing Google Chrome extension..."
-    sh "open -a 'Google Chrome' builds/dotjs.crx &"
+    puts "", "\e[31mIMPORTANT!\e[0m Install the Google Chrome extension:"
+    puts "http://bit.ly/dotjs", ""
   end
 end
 
