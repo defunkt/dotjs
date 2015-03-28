@@ -68,7 +68,7 @@ the returned JavaScript.
     cd dotjs
     rake install
 
-Now open https://localhost:3131 in Chrome and follow these steps:
+Now open <https://localhost:3131> in Chrome and follow these steps:
 
 - Click the "X" Padlock icon in the address bar
 - Click "Certificate Information"
