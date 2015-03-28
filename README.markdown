@@ -100,7 +100,7 @@ http://bit.ly/dotjs
 
 ## Windows
 
-- [dotjs-win](https://github.com/p3lim/dotjs-win)
+- [dotjs-universal](https://github.com/p3lim/dotjs-universal)
 
 ## Other Browsers
 
