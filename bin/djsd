@@ -61,7 +61,7 @@ ssl_cert = ssl_info.scan(/(-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE---
 ssl_key  = ssl_info.scan(/(-----BEGIN RSA PRIVATE KEY-----.+?-----END RSA PRIVATE KEY-----)/m)[0][0]
 
 server_options = {
-  :BindAddress => "127.0.0.1",
+  :BindAddress => "localhost",
   :Port => 3131,
   :AccessLog => [],
   :SSLEnable => true,
