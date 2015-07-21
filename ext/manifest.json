@@ -9,10 +9,9 @@
     "all_frames": true,
     "run_at":     "document_start",
     "matches":    ["http://*/*", "https://*/*"],
-    "js":         ["jquery.js", "dotjs.js"]
+    "js":         ["dotjs.js"]
   }],
   "permissions": [
     "tabs"
-  ],
-   "web_accessible_resources": ["jquery.min.map"]
+  ]
 }
