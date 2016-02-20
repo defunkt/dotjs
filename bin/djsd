@@ -48,7 +48,7 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
   def detect_origin(req)
     path   = req.path
     origin = req.header['origin']
-    search = path.gsub('/','').gsub(/\.js$/,'') + '$'
+    search = path.gsub('/','').gsub(/\.js$/,'') + '(:\d+)?$'
 
     if origin.length == 1 && path.length != 1 && origin[0].match(search)
       origin[0]
