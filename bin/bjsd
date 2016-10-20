@@ -1,0 +1,40 @@
+#!/bin/bash
+# bjsd
+# simple Bash script to serve JS files for dot.js
+# from: http://paulbuchheit.blogspot.com/2007/04/webserver-in-bash.html
+# By Paul_Buchheit (http://en.wikipedia.org/wiki/Paul_Buchheit)
+# with small modification to serve files and
+# set content type header to JS by Maksim Lin <maks@manichord.com>
+# and with the cut cmd to get the request path
+# sourced from https://github.com/tlrobinson/wwwoosh
+
+RESP=/tmp/webresp.bjsd
+
+HTTP_PORT=3131
+
+[ -p $RESP ] || mkfifo $RESP
+
+while true ; do
+( cat $RESP ) | nc -l $HTTP_PORT | (
+
+read REQUEST_LINE
+REQ_HEADERS=`while read L && [ " " "<" "$L" ] ; do echo "$L" ; done`
+
+REQUEST_PATH=$(echo $REQUEST_LINE | cut -d ' ' -f 2)
+
+REQ_FILE=$(cat ./$REQUEST_PATH)
+
+#echo "[`date '+%Y-%m-%d %H:%M:%S'`]" $REQUEST_LINE
+cat >$RESP <<EOF
+HTTP/1.0 200 OK
+Cache-Control: private
+Content-Type: text/javascript
+Server: bash/2.0
+Connection: Close
+Access-Control-Allow-Origin: *
+Content-Length: ${#REQ_FILE}
+
+$REQ_FILE
+EOF
+)
+done
