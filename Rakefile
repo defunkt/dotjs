@@ -39,6 +39,13 @@ namespace :install do
     end
   end
 
+  desc "Create ~/.js"
+  task :create_dir do
+     js_dir = File.join(ENV['HOME'], ".js")
+     Dir.mkdir(js_dir)
+    chmod 0755, js_dir
+  end
+
   desc "Install launch agent"
   task :agent do
     plist = "com.github.dotjs.plist"
