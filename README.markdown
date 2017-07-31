@@ -95,6 +95,12 @@ http://bit.ly/dotjs
    stick JavaScript in ~/.js. Do
    you know what I'm saying?"
 
+## Cross-platform
+
+- [dotjs](https://github.com/luciopaiva/dotjs): based 
+on Node.js, works on all platforms and doesn't depend 
+on SSL certificates to work
+
 ## Linux
 
 - [dotjs-ubuntu](https://github.com/glenbot/dotjs-ubuntu)
