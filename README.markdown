@@ -97,9 +97,10 @@ http://bit.ly/dotjs
 
 ## Cross-platform
 
-- [dotjs](https://github.com/luciopaiva/dotjs): based 
-on Node.js, works on all platforms and doesn't depend 
-on SSL certificates to work
+- [Witchcraft](https://github.com/luciopaiva/witchcraft): 
+based on Node.js, works on all platforms and doesn't depend 
+on SSL certificates to work. It's also able to handle CSS
+scripts, among other new features.
 
 ## Linux
 
