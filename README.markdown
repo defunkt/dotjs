@@ -1,3 +1,10 @@
+This project is archived and no longer mainted.
+
+Check out its successor, which is way better and 
+runs on all platforms: 
+
+[Witchcraft](https://github.com/luciopaiva/witchcraft)
+
 dotjs
 =====
 
