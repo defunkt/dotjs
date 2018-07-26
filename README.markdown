@@ -102,6 +102,13 @@ http://bit.ly/dotjs
    stick JavaScript in ~/.js. Do
    you know what I'm saying?"
 
+## Cross-platform
+
+- [Witchcraft](https://github.com/luciopaiva/witchcraft): 
+based on Node.js, works on all platforms and doesn't depend 
+on SSL certificates to work. It's also able to handle CSS
+scripts, among other new features.
+
 ## Linux
 
 - [dotjs-ubuntu](https://github.com/glenbot/dotjs-ubuntu)
