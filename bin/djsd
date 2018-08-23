@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
 if (%w( -h --help -help help ) & ARGV).length > 0
-  puts "usage: djsd [-hv]"
-  puts "starts dotjs server in the foreground. kill with ^C"
+  puts 'usage: djsd [-hv]'
+  puts 'starts dotjs server in the foreground. kill with ^C'
   exit
 end
 
 if ARGV.include?('-v')
-  puts "djsd 2.0"
+  puts 'djsd 2.0'
   exit
 end
 
@@ -15,34 +15,52 @@ require 'webrick'
 require 'webrick/https'
 
 dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
+  IMAGE_TYPES = %w(.png .jpg .gif)
+
   def do_GET(request, response)
-    body = build_body(request.path)
+        (body, mime_type) = build_body(request.path)
 
     response.status = body.empty? ? 204 : 200
     if origin = detect_origin(request)
       response['Access-Control-Allow-Origin'] = origin
     end
-    response['Content-Type'] = 'text/javascript'
+    response['Content-Type'] = mime_type
     response.body = body
   end
 
   def build_body(path)
-    files = [File.expand_path("default.js")]
+    files = []
+    ext = File.extname(path)
+    base = '~/.js/'
+    case
+      when ext == '.js'
+        files << File.expand_path('~/.js/default.js')
+        mime_type = 'text/javascript'
+      when ext == '.css'
+        files <<  File.expand_path('~/.js/css/default.css')
+        base += 'css/'
+        mime_type = 'text/css'
+      when IMAGE_TYPES.include?(ext)
+        base += 'images/'
+        mime_type = "image/#{ext[1 .. -1]}"
+      else
+        puts 'oops'
+    end
     paths = path.gsub('/','').split('.')
 
     until paths.empty?
-      file = File.expand_path(paths.join('.'))
+      file = File.expand_path(File.join(base, (paths).join('.')))
       files << file if File.file?(file)
       paths.shift
     end
 
-    body = "// dotjs is working! //\n"
+    body = ''
 
     files.each do |file|
       body << File.read(file) + "\n" if File.file?(file)
     end
 
-    body
+    [body, mime_type]
   end
 
   def detect_origin(req)
@@ -61,14 +79,15 @@ ssl_cert = ssl_info.scan(/(-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE---
 ssl_key  = ssl_info.scan(/(-----BEGIN RSA PRIVATE KEY-----.+?-----END RSA PRIVATE KEY-----)/m)[0][0]
 
 server_options = {
-  :BindAddress => "127.0.0.1",
+  :BindAddress => '127.0.0.1',
   :Port => 3131,
   :AccessLog => [],
   :SSLEnable => true,
   :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
   :SSLPrivateKey => OpenSSL::PKey::RSA.new(ssl_key),
   :SSLCertificate => OpenSSL::X509::Certificate.new(ssl_cert),
-  :SSLCertName => [["CN", WEBrick::Utils::getservername]],
+  :SSLCertName => [['CN', WEBrick::Utils::getservername]],
+  :SSLCACertificatePath => File.join(__FILE__, '../dotjs.pem')
 }
 
 server = WEBrick::HTTPServer.new(server_options)

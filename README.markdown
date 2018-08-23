@@ -29,6 +29,11 @@ Double bonus: `~/.js/default.js`  is loaded on every
 request,  meaning you  can stick  plugins  or helper
 functions in it.
 
+Triple bonus:  Include CSS and  image files  in your
+.js files and serve them from  your local dirs.  CSS
+files  in  `~/.js/css` and  .gif, .jpg, and .png  files
+from `~/.js/images`.
+
 GreaseMonkey user scripts are great, but you need to
 publish them  somewhere and re-publish  after making
 modifications. With dotjs, just add or edit files in
@@ -45,6 +50,7 @@ modifications. With dotjs, just add or edit files in
         );
 
 ![](http://puu.sh/1Kjvw)
+
 
 ## How It Works
 
