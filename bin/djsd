@@ -36,10 +36,20 @@ dotjs = Class.new(WEBrick::HTTPServlet::AbstractServlet) do
       paths.shift
     end
 
-    body = "// dotjs is working! //\n"
+    tempbody = ''
 
     files.each do |file|
-      body << File.read(file) + "\n" if File.file?(file)
+      tempbody << File.read(file) + "\n" if File.file?(file)
+    end
+
+    body = "// dotjs is working! //\n"
+
+    # search for // include <js file> and include contents of file
+    tempbody.split("\n").each do |line|
+      body << line + "\n"
+      line.scan(/\/\/ *include +(\S*)/) do |file|
+        body << File.read(file[0]) + "\n" if File.file?(file[0])
+      end
     end
 
     body
